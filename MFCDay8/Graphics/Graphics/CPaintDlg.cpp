@@ -86,6 +86,7 @@ void CPaintDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CPaintDlg, CDialogEx)
 	ON_WM_PAINT()
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -211,4 +212,12 @@ void CPaintDlg::ShowBitmap(CPaintDC* pDC, CWnd* pWnd)
 	GetClientRect(lRect);
 	lRect.NormalizeRect();
 	pDC->StretchBlt(10, 10, (lRect.Width() - 20), (lRect.Height() - 20), &dcMem, 0, 0, bm.bmWidth, bm.bmHeight, SRCCOPY);
+}
+
+void CPaintDlg::OnSize(UINT nType, int cx, int cy)
+{
+	CDialogEx::OnSize(nType, cx, cy);
+	Invalidate();
+
+	// TODO: Add your message handler code here
 }
