@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Timer", "Timer\Timer.vcxproj", "{B6CD2C38-0499-4FB6-A9BB-78CC1D6423E0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B6CD2C38-0499-4FB6-A9BB-78CC1D6423E0}.Debug|x64.ActiveCfg = Debug|x64
+		{B6CD2C38-0499-4FB6-A9BB-78CC1D6423E0}.Debug|x64.Build.0 = Debug|x64
+		{B6CD2C38-0499-4FB6-A9BB-78CC1D6423E0}.Debug|x86.ActiveCfg = Debug|Win32
+		{B6CD2C38-0499-4FB6-A9BB-78CC1D6423E0}.Debug|x86.Build.0 = Debug|Win32
+		{B6CD2C38-0499-4FB6-A9BB-78CC1D6423E0}.Release|x64.ActiveCfg = Release|x64
+		{B6CD2C38-0499-4FB6-A9BB-78CC1D6423E0}.Release|x64.Build.0 = Release|x64
+		{B6CD2C38-0499-4FB6-A9BB-78CC1D6423E0}.Release|x86.ActiveCfg = Release|Win32
+		{B6CD2C38-0499-4FB6-A9BB-78CC1D6423E0}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8FEA6598-9E84-431B-B622-8D311399BA2B}
+	EndGlobalSection
+EndGlobal
