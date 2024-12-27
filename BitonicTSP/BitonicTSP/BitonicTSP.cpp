@@ -29,7 +29,7 @@ double dp[mxN][mxN];
 // Function to calculate the
 // distance between two points
 // in a Euclidean plane
-double distance(int i, int j)
+static double distance(int i, int j)
 {
     // Return the distance
     return sqrt(
@@ -48,7 +48,7 @@ double distance_arr(int i, int j, Coordinates* a)
 
 // Utility recursive function to find
 // the bitonic tour distance
-double findTourDistance(int i, int j)
+static double findTourDistance(int i, int j)
 {
     //std::cout << "findTourDistance:" << "i=" << i << "\t" << "j=" << j << "\n";
     // Memoization
@@ -171,7 +171,7 @@ void bitonicTSP_improved()
     }
 }
 
-int main()
+int main_bakup0()
 {
     bitonicTSP_improved();
     return 0;
