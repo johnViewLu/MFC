@@ -18,5 +18,8 @@
     <ClCompile Include="BitonicTSP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="bitonic_tsp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
