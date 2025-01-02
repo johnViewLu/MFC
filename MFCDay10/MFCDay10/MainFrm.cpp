@@ -36,6 +36,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
 	ON_WM_SETTINGCHANGE()
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORBAR, &CMainFrame::OnUpdateViewColorbar)
+	ON_COMMAND(ID_VIEW_COLORBAR, &CMainFrame::OnViewColorbar)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -71,7 +73,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	L_(lwarning) << "Ops, variable x should be " << 1 << "; is " << 0;
 
 	
-
 	BOOL bNameValid;
 
 	if (!m_wndMenuBar.Create(this))
@@ -85,12 +86,53 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// prevent the menu bar from taking the focus on activation
 	CMFCPopupMenu::SetForceMenuFocus(FALSE);
 
-	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
+	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD |
+		                                           WS_VISIBLE | CBRS_TOP 
+		                                           | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | 
+		                                             CBRS_SIZE_DYNAMIC) ||
 		!m_wndToolBar.LoadToolBar(theApp.m_bHiColorIcons ? IDR_MAINFRAME_256 : IDR_MAINFRAME))
 	{
 		TRACE0("Failed to create toolbar\n");
 		return -1;      // fail to create
 	}
+
+	//if (!m_wndColorBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD |
+	//	                                           WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | 
+	//	                                           CBRS_FLYBY | CBRS_SIZE_DYNAMIC) || 
+	//	                                           !m_wndColorBar.LoadToolBar(IDR_TBCOLOR))
+	//{
+	//	TRACE0("Failed to create colorbar\n");
+	//	return -1;      // fail to create
+	//}
+
+	auto vRlt = m_wndColorBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD |
+		WS_VISIBLE | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_ALIGN_BOTTOM |
+		CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
+	if (!vRlt)
+	{
+		TRACE0("Failed to create colorbar\n");
+		return -1;      // fail to create
+	}
+
+	vRlt = m_wndColorBar.LoadToolBar(IDR_TBCOLOR);
+
+	if (!vRlt)
+	{
+		TRACE0("Failed to load colorbar\n");
+		return -1;      // fail to create
+	}
+
+	int iTBCtlID = m_wndColorBar.CommandToIndex(ID_COLOR_BLACK);
+	if (iTBCtlID < 0)
+	{
+		TRACE0("Failed to get color black\n");
+		return -1;
+	}
+	for (auto i = iTBCtlID; i < iTBCtlID + 8; i++)
+	{
+		m_wndColorBar.SetButtonStyle(i, m_wndColorBar.GetButtonStyle(i) | TBBS_CHECKGROUP);
+	}
+
 
 	CString strToolBarName;
 	bNameValid = strToolBarName.LoadString(IDS_TOOLBAR_STANDARD);
@@ -115,9 +157,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// TODO: Delete these five lines if you don't want the toolbar and menubar to be dockable
 	m_wndMenuBar.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
+	m_wndColorBar.EnableDocking(CBRS_ALIGN_ANY);
 	EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndMenuBar);
 	DockPane(&m_wndToolBar);
+	DockPane(&m_wndColorBar);
 
 
 	// enable Visual Studio 2005 style docking window behavior
@@ -423,4 +467,20 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 {
 	CFrameWndEx::OnSettingChange(uFlags, lpszSection);
 	m_wndOutput.UpdateFonts();
+}
+
+
+void CMainFrame::OnUpdateViewColorbar(CCmdUI* pCmdUI)
+{
+	// TODO: Add your command update UI handler code here
+	pCmdUI->SetCheck(m_wndColorBar.GetStyle() & WS_VISIBLE);
+}
+
+
+void CMainFrame::OnViewColorbar()
+{
+	// TODO: Add your command handler code here
+	BOOL bVisible = m_wndColorBar.IsVisible();
+	ShowPane(&m_wndColorBar, !bVisible, FALSE, TRUE);
+	RecalcLayout();
 }

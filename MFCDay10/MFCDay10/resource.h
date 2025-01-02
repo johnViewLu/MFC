@@ -83,6 +83,9 @@
 #define IDS_FIND_TAB                    302
 #define IDS_EXPLORER                    305
 #define IDS_EDIT_MENU                   306
+#define IDR_TOOLBAR1                    316
+#define IDR_TBCOLOR                     316
+#define IDI_ICON1                       320
 #define ID_COLOR                        32771
 #define ID_COLOR_BLACK                  32772
 #define ID_COLOR_BLUE                   32773
@@ -98,13 +101,16 @@
 #define ID_PENSIZE_THICK                32783
 #define ID_PENSIZE_VERYTHICK            32784
 #define ID_PENSIZE_TEST                 32785
+#define ID_BUTTON32786                  32786
+#define ID_BUTTON32794                  32794
+#define ID_VIEW_COLORBAR                32795
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        310
-#define _APS_NEXT_COMMAND_VALUE         32786
+#define _APS_NEXT_RESOURCE_VALUE        326
+#define _APS_NEXT_COMMAND_VALUE         32796
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
