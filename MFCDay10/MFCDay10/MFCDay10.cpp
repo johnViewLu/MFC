@@ -107,7 +107,7 @@ BOOL CMFCDay10App::InitInstance()
 	CSingleDocTemplate* pDocTemplate;
 	pDocTemplate = new CSingleDocTemplate(
 		IDR_MAINFRAME,
-		RUNTIME_CLASS(CMFCDay10Doc),
+		RUNTIME_CLASS(CToolbarDoc),
 		RUNTIME_CLASS(CMainFrame),       // main SDI frame window
 		RUNTIME_CLASS(CMFCDay10View));
 	if (!pDocTemplate)

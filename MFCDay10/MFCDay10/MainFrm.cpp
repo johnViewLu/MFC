@@ -13,8 +13,7 @@
 #include "DebugLog.h"
 #include "MFCDay10.h"
 #include "MainFrm.h"
-
-
+#include "MFCDay10Doc.h"
 
 
 #ifdef _DEBUG
@@ -38,6 +37,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_WM_SETTINGCHANGE()
 	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORBAR, &CMainFrame::OnUpdateViewColorbar)
 	ON_COMMAND(ID_VIEW_COLORBAR, &CMainFrame::OnViewColorbar)
+	ON_CBN_SELCHANGE(IDC_CBWIDTH, &CMainFrame::OnSelChangeWidth)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -96,42 +96,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;      // fail to create
 	}
 
-	//if (!m_wndColorBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD |
-	//	                                           WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | 
-	//	                                           CBRS_FLYBY | CBRS_SIZE_DYNAMIC) || 
-	//	                                           !m_wndColorBar.LoadToolBar(IDR_TBCOLOR))
-	//{
-	//	TRACE0("Failed to create colorbar\n");
-	//	return -1;      // fail to create
-	//}
 
-	auto vRlt = m_wndColorBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD |
-		WS_VISIBLE | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_ALIGN_BOTTOM |
-		CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
-	if (!vRlt)
+	if (!CreateColorBar())
 	{
 		TRACE0("Failed to create colorbar\n");
-		return -1;      // fail to create
-	}
-
-	vRlt = m_wndColorBar.LoadToolBar(IDR_TBCOLOR);
-
-	if (!vRlt)
-	{
-		TRACE0("Failed to load colorbar\n");
-		return -1;      // fail to create
-	}
-
-	int iTBCtlID = m_wndColorBar.CommandToIndex(ID_COLOR_BLACK);
-	if (iTBCtlID < 0)
-	{
-		TRACE0("Failed to get color black\n");
 		return -1;
 	}
-	for (auto i = iTBCtlID; i < iTBCtlID + 8; i++)
-	{
-		m_wndColorBar.SetButtonStyle(i, m_wndColorBar.GetButtonStyle(i) | TBBS_CHECKGROUP);
-	}
+
 
 
 	CString strToolBarName;
@@ -154,11 +125,14 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT));
 
+
+	EnableDocking(CBRS_ALIGN_ANY);
+
 	// TODO: Delete these five lines if you don't want the toolbar and menubar to be dockable
 	m_wndMenuBar.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndColorBar.EnableDocking(CBRS_ALIGN_ANY);
-	EnableDocking(CBRS_ALIGN_ANY);
+	
 	DockPane(&m_wndMenuBar);
 	DockPane(&m_wndToolBar);
 	DockPane(&m_wndColorBar);
@@ -483,4 +457,83 @@ void CMainFrame::OnViewColorbar()
 	BOOL bVisible = m_wndColorBar.IsVisible();
 	ShowPane(&m_wndColorBar, !bVisible, FALSE, TRUE);
 	RecalcLayout();
+}
+
+
+BOOL CMainFrame::CreateColorBar()
+{
+	// TODO: Add your implementation code here.
+	auto vRlt = m_wndColorBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD |
+		WS_VISIBLE | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_ALIGN_BOTTOM |
+		CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
+	if (!vRlt)
+	{
+		TRACE0("Failed to create colorbar\n");
+		return FALSE;      // fail to create
+	}
+
+	vRlt = m_wndColorBar.LoadToolBar(IDR_TBCOLOR);
+
+	if (!vRlt)
+	{
+		TRACE0("Failed to load colorbar\n");
+		return FALSE;      // fail to create
+	}
+
+	int iTBCtlID = m_wndColorBar.CommandToIndex(ID_COLOR_BLACK);
+	if (iTBCtlID < 0)
+	{
+		TRACE0("Failed to get color black\n");
+		return -1;
+	}
+	for (auto i = iTBCtlID; i < iTBCtlID + 8; i++)
+	{
+		m_wndColorBar.SetButtonStyle(i, m_wndColorBar.GetButtonStyle(i) | TBBS_CHECKGROUP);
+	}
+
+	auto nWidth = 90;
+	auto nHeight = 125;
+
+
+	//m_wndColorBar.SetWindowPos(nullptr, 0, 0, 300, 30, SWP_NOZORDER | SWP_NOMOVE);
+
+	// Create the combo box
+	CRect rect;
+    m_wndColorBar.SetButtonInfo(8, IDC_CBWIDTH, TBBS_SEPARATOR, nWidth);
+	m_wndColorBar.GetItemRect(8, &rect);
+	rect.bottom = rect.top + nHeight;
+	if (!m_ctrlWidth.Create(CBS_DROPDOWNLIST | WS_VSCROLL | WS_VISIBLE, rect, &m_wndColorBar, IDC_CBWIDTH))
+	{
+		TRACE0("Failed to create combo box\n");
+		return FALSE;
+	}
+	CString szStyle;
+	for (auto ix = 0; ix < 5; ++ix)
+	{
+		if (szStyle.LoadString(ID_PENSIZE_VERYTHIN + ix))
+			m_ctrlWidth.AddString(szStyle);
+	}
+	UpdateWidthCB(0);
+	return TRUE;
+
+}
+
+
+void CMainFrame::OnSelChangeWidth()
+{
+	// TODO: Add your implementation code here.
+	auto nIndex = m_ctrlWidth.GetCurSel();
+	if (nIndex == CB_ERR)
+		return;
+	CToolbarDoc* pDoc = (CToolbarDoc*)GetActiveDocument();
+	if (pDoc == nullptr)
+		return;
+	pDoc->SetPenSize(nIndex);
+}
+
+
+void CMainFrame::UpdateWidthCB(int idx)
+{
+	// TODO: Add your implementation code here.
+	m_ctrlWidth.SetCurSel(idx);
 }

@@ -59,7 +59,7 @@ BOOL CMFCDay10View::PreCreateWindow(CREATESTRUCT& cs)
 
 void CMFCDay10View::OnDraw(CDC* pDC)
 {
-	CMFCDay10Doc* pDoc = GetDocument();
+	CToolbarDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
@@ -130,10 +130,10 @@ void CMFCDay10View::Dump(CDumpContext& dc) const
 	CView::Dump(dc);
 }
 
-CMFCDay10Doc* CMFCDay10View::GetDocument() const // non-debug version is inline
+CToolbarDoc* CMFCDay10View::GetDocument() const // non-debug version is inline
 {
-	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CMFCDay10Doc)));
-	return (CMFCDay10Doc*)m_pDocument;
+	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CToolbarDoc)));
+	return (CToolbarDoc*)m_pDocument;
 }
 #endif //_DEBUG
 

@@ -14,36 +14,37 @@
 #include <fstream>
 #include <propkey.h>
 #include "CLine.h"
+#include "MainFrm.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 #include "DebugLog.h"
 // CMFCDay10Doc
 
-IMPLEMENT_DYNCREATE(CMFCDay10Doc, CDocument)
+IMPLEMENT_DYNCREATE(CToolbarDoc, CDocument)
 
-BEGIN_MESSAGE_MAP(CMFCDay10Doc, CDocument)
-	ON_COMMAND(ID_COLOR_BLACK, &CMFCDay10Doc::OnColorBlack)
-	ON_UPDATE_COMMAND_UI(ID_COLOR_BLACK, &CMFCDay10Doc::OnUpdateColorBlack)
-	ON_COMMAND(ID_COLOR_BLUE, &CMFCDay10Doc::OnColorBlue)
-	ON_UPDATE_COMMAND_UI(ID_COLOR_BLUE, &CMFCDay10Doc::OnUpdateColorBlue)
-	ON_COMMAND(ID_COLOR_CYAN, &CMFCDay10Doc::OnColorCyan)
-	ON_UPDATE_COMMAND_UI(ID_COLOR_CYAN, &CMFCDay10Doc::OnUpdateColorCyan)
-	ON_COMMAND(ID_COLOR_GREEN, &CMFCDay10Doc::OnColorGreen)
-	ON_UPDATE_COMMAND_UI(ID_COLOR_GREEN, &CMFCDay10Doc::OnUpdateColorGreen)
-	ON_COMMAND(ID_COLOR_MAGENTA, &CMFCDay10Doc::OnColorMagenta)
-	ON_UPDATE_COMMAND_UI(ID_COLOR_MAGENTA, &CMFCDay10Doc::OnUpdateColorMagenta)
-	ON_COMMAND(ID_COLOR_RED, &CMFCDay10Doc::OnColorRed)
-	ON_UPDATE_COMMAND_UI(ID_COLOR_RED, &CMFCDay10Doc::OnUpdateColorRed)
-	ON_COMMAND(ID_COLOR_WHITE, &CMFCDay10Doc::OnColorWhite)
-	ON_UPDATE_COMMAND_UI(ID_COLOR_WHITE, &CMFCDay10Doc::OnUpdateColorWhite)
-	ON_COMMAND(ID_COLOR_YELLOW, &CMFCDay10Doc::OnColorYellow)
-	ON_UPDATE_COMMAND_UI(ID_COLOR_YELLOW, &CMFCDay10Doc::OnUpdateColorYellow)
-	ON_COMMAND_RANGE(ID_PENSIZE_VERYTHIN, ID_PENSIZE_VERYTHICK, &CMFCDay10Doc::OnPensizeCommand)
-	ON_UPDATE_COMMAND_UI_RANGE(ID_PENSIZE_VERYTHIN, ID_PENSIZE_VERYTHICK, &CMFCDay10Doc::OnUpdatePensizeCommand)
+BEGIN_MESSAGE_MAP(CToolbarDoc, CDocument)
+	ON_COMMAND(ID_COLOR_BLACK, &CToolbarDoc::OnColorBlack)
+	ON_UPDATE_COMMAND_UI(ID_COLOR_BLACK, &CToolbarDoc::OnUpdateColorBlack)
+	ON_COMMAND(ID_COLOR_BLUE, &CToolbarDoc::OnColorBlue)
+	ON_UPDATE_COMMAND_UI(ID_COLOR_BLUE, &CToolbarDoc::OnUpdateColorBlue)
+	ON_COMMAND(ID_COLOR_CYAN, &CToolbarDoc::OnColorCyan)
+	ON_UPDATE_COMMAND_UI(ID_COLOR_CYAN, &CToolbarDoc::OnUpdateColorCyan)
+	ON_COMMAND(ID_COLOR_GREEN, &CToolbarDoc::OnColorGreen)
+	ON_UPDATE_COMMAND_UI(ID_COLOR_GREEN, &CToolbarDoc::OnUpdateColorGreen)
+	ON_COMMAND(ID_COLOR_MAGENTA, &CToolbarDoc::OnColorMagenta)
+	ON_UPDATE_COMMAND_UI(ID_COLOR_MAGENTA, &CToolbarDoc::OnUpdateColorMagenta)
+	ON_COMMAND(ID_COLOR_RED, &CToolbarDoc::OnColorRed)
+	ON_UPDATE_COMMAND_UI(ID_COLOR_RED, &CToolbarDoc::OnUpdateColorRed)
+	ON_COMMAND(ID_COLOR_WHITE, &CToolbarDoc::OnColorWhite)
+	ON_UPDATE_COMMAND_UI(ID_COLOR_WHITE, &CToolbarDoc::OnUpdateColorWhite)
+	ON_COMMAND(ID_COLOR_YELLOW, &CToolbarDoc::OnColorYellow)
+	ON_UPDATE_COMMAND_UI(ID_COLOR_YELLOW, &CToolbarDoc::OnUpdateColorYellow)
+	ON_COMMAND_RANGE(ID_PENSIZE_VERYTHIN, ID_PENSIZE_VERYTHICK, &CToolbarDoc::OnPensizeCommand)
+	ON_UPDATE_COMMAND_UI_RANGE(ID_PENSIZE_VERYTHIN, ID_PENSIZE_VERYTHICK, &CToolbarDoc::OnUpdatePensizeCommand)
 END_MESSAGE_MAP()
 
-const COLORREF CMFCDay10Doc::m_crColors[8] = {
+const COLORREF CToolbarDoc::m_crColors[8] = {
 	RGB(0,		0,		  0),
 	RGB(0,		0,		255),
 	RGB(0,		255,	  0),
@@ -57,18 +58,18 @@ const COLORREF CMFCDay10Doc::m_crColors[8] = {
 
 // CMFCDay10Doc construction/destruction
 
-CMFCDay10Doc::CMFCDay10Doc() noexcept
+CToolbarDoc::CToolbarDoc() noexcept
 {
 	// TODO: add one-time construction code here
-	m_nPenSize = 32;
-
+	m_nPenSize = 1;
+	UpdateColorBar(0);
 }
 
-CMFCDay10Doc::~CMFCDay10Doc()
+CToolbarDoc::~CToolbarDoc()
 {
 }
 
-BOOL CMFCDay10Doc::OnNewDocument()
+BOOL CToolbarDoc::OnNewDocument()
 {
 	if (!CDocument::OnNewDocument())
 		return FALSE;
@@ -85,7 +86,7 @@ BOOL CMFCDay10Doc::OnNewDocument()
 
 // CMFCDay10Doc serialization
 
-void CMFCDay10Doc::Serialize(CArchive& ar)
+void CToolbarDoc::Serialize(CArchive& ar)
 {
 	m_oaLines.Serialize(ar);
 }
@@ -147,12 +148,12 @@ void CMFCDay10Doc::SetSearchContent(const CString& value)
 // CMFCDay10Doc diagnostics
 
 #ifdef _DEBUG
-void CMFCDay10Doc::AssertValid() const
+void CToolbarDoc::AssertValid() const
 {
 	CDocument::AssertValid();
 }
 
-void CMFCDay10Doc::Dump(CDumpContext& dc) const
+void CToolbarDoc::Dump(CDumpContext& dc) const
 {
 	CDocument::Dump(dc);
 }
@@ -162,7 +163,7 @@ void CMFCDay10Doc::Dump(CDumpContext& dc) const
 // CMFCDay10Doc commands
 
 
-CLine* CMFCDay10Doc::AddLine(CPoint ptFrom, CPoint ptTo)
+CLine* CToolbarDoc::AddLine(CPoint ptFrom, CPoint ptTo)
 {
 	// TODO: Add your implementation code here.
 	CLine* pLine = new CLine(ptFrom, ptTo,m_crColors[m_nColor]);
@@ -186,7 +187,7 @@ CLine* CMFCDay10Doc::AddLine(CPoint ptFrom, CPoint ptTo)
 }
 
 
-int CMFCDay10Doc::GetLineCount()
+int CToolbarDoc::GetLineCount()
 {
 	// TODO: Add your implementation code here.
 	//std::ofstream vFile;
@@ -198,7 +199,7 @@ int CMFCDay10Doc::GetLineCount()
 }
 
 
-CLine* CMFCDay10Doc::GetLine(int nIndex)
+CLine* CToolbarDoc::GetLine(int nIndex)
 {
 	// TODO: Add your implementation code here.
 	return (CLine*)m_oaLines[nIndex];
@@ -206,7 +207,7 @@ CLine* CMFCDay10Doc::GetLine(int nIndex)
 }
 
 
-void CMFCDay10Doc::DeleteContents()
+void CToolbarDoc::DeleteContents()
 {
 	// TODO: Add your specialized code here and/or call the base class
 	auto liCount = m_oaLines.GetSize();
@@ -221,136 +222,139 @@ void CMFCDay10Doc::DeleteContents()
 }
 
 
-unsigned int CMFCDay10Doc::GetColor()
+unsigned int CToolbarDoc::GetColor()
 {
 	// TODO: Add your implementation code here.
 	return ID_COLOR_BLACK + m_nColor;
 }
 
 
-void CMFCDay10Doc::OnColorBlack()
+void CToolbarDoc::OnColorBlack()
 {
 	// TODO: Add your command handler code here
 	m_nColor = ID_COLOR_BLACK - ID_COLOR_BLACK;
 }
 
 
-void CMFCDay10Doc::OnUpdateColorBlack(CCmdUI* pCmdUI)
+void CToolbarDoc::OnUpdateColorBlack(CCmdUI* pCmdUI)
 {
 	// TODO: Add your command update UI handler code here
 	pCmdUI->SetCheck(GetColor() == ID_COLOR_BLACK ? 1 : 0);
 }
 
 
-void CMFCDay10Doc::OnColorBlue()
+void CToolbarDoc::OnColorBlue()
 {
 	// TODO: Add your command handler code here
 	m_nColor = ID_COLOR_BLUE - ID_COLOR_BLACK;
 }
 
 
-void CMFCDay10Doc::OnUpdateColorBlue(CCmdUI* pCmdUI)
+void CToolbarDoc::OnUpdateColorBlue(CCmdUI* pCmdUI)
 {
 	// TODO: Add your command update UI handler code here
 	pCmdUI->SetCheck(GetColor() == ID_COLOR_BLUE ? 1 : 0);
 }
 
 
-void CMFCDay10Doc::OnColorCyan()
+void CToolbarDoc::OnColorCyan()
 {
 	// TODO: Add your command handler code here
 	m_nColor = ID_COLOR_CYAN - ID_COLOR_BLACK;
 }
 
 
-void CMFCDay10Doc::OnUpdateColorCyan(CCmdUI* pCmdUI)
+void CToolbarDoc::OnUpdateColorCyan(CCmdUI* pCmdUI)
 {
 	// TODO: Add your command update UI handler code here
 	pCmdUI->SetCheck(GetColor() == ID_COLOR_CYAN ? 1 : 0);
 }
 
 
-void CMFCDay10Doc::OnColorGreen()
+void CToolbarDoc::OnColorGreen()
 {
 	// TODO: Add your command handler code here
 	m_nColor = ID_COLOR_GREEN - ID_COLOR_BLACK;
 }
 
 
-void CMFCDay10Doc::OnUpdateColorGreen(CCmdUI* pCmdUI)
+void CToolbarDoc::OnUpdateColorGreen(CCmdUI* pCmdUI)
 {
 	// TODO: Add your command update UI handler code here
 	pCmdUI->SetCheck(GetColor() == ID_COLOR_GREEN ? 1 : 0);
 }
 
 
-void CMFCDay10Doc::OnColorMagenta()
+void CToolbarDoc::OnColorMagenta()
 {
 	// TODO: Add your command handler code here
 	m_nColor = ID_COLOR_MAGENTA - ID_COLOR_BLACK;
 }
 
 
-void CMFCDay10Doc::OnUpdateColorMagenta(CCmdUI* pCmdUI)
+void CToolbarDoc::OnUpdateColorMagenta(CCmdUI* pCmdUI)
 {
 	// TODO: Add your command update UI handler code here
 	pCmdUI->SetCheck(GetColor() == ID_COLOR_MAGENTA ? 1 : 0);
 }
 
 
-void CMFCDay10Doc::OnColorRed()
+void CToolbarDoc::OnColorRed()
 {
 	// TODO: Add your command handler code here
 	m_nColor = ID_COLOR_RED - ID_COLOR_BLACK;
 }
 
 
-void CMFCDay10Doc::OnUpdateColorRed(CCmdUI* pCmdUI)
+void CToolbarDoc::OnUpdateColorRed(CCmdUI* pCmdUI)
 {
 	// TODO: Add your command update UI handler code here
 	pCmdUI->SetCheck(GetColor() == ID_COLOR_RED ? 1 : 0);
 }
 
 
-void CMFCDay10Doc::OnColorWhite()
+void CToolbarDoc::OnColorWhite()
 {
 	// TODO: Add your command handler code here
 	m_nColor = ID_COLOR_WHITE - ID_COLOR_BLACK;
 }
 
 
-void CMFCDay10Doc::OnUpdateColorWhite(CCmdUI* pCmdUI)
+void CToolbarDoc::OnUpdateColorWhite(CCmdUI* pCmdUI)
 {
 	// TODO: Add your command update UI handler code here
 	pCmdUI->SetCheck(GetColor() == ID_COLOR_WHITE ? 1 : 0);
 }
 
 
-void CMFCDay10Doc::OnColorYellow()
+void CToolbarDoc::OnColorYellow()
 {
 	// TODO: Add your command handler code here
 	m_nColor = ID_COLOR_YELLOW - ID_COLOR_BLACK;
 }
 
 
-void CMFCDay10Doc::OnUpdateColorYellow(CCmdUI* pCmdUI)
+void CToolbarDoc::OnUpdateColorYellow(CCmdUI* pCmdUI)
 {
 	// TODO: Add your command update UI handler code here
 	pCmdUI->SetCheck(GetColor() == ID_COLOR_YELLOW ? 1 : 0);
 }
 
 
-void CMFCDay10Doc::OnPensizeCommand(UINT iID)
+void CToolbarDoc::OnPensizeCommand(UINT iID)
 {
 	// TODO: Add your command handler code here
 	m_nPenSize = iID - ID_PENSIZE_VERYTHIN + 1;
+
+	UpdateColorBar(iID - ID_PENSIZE_VERYTHIN);
+
 	if(iID!=ID_PENSIZE_VERYTHIN)
 		m_nPenSize *=8;
 }
 
 
 
-void CMFCDay10Doc::OnUpdatePensizeCommand(CCmdUI* pCmdUI)
+void CToolbarDoc::OnUpdatePensizeCommand(CCmdUI* pCmdUI)
 {
 	UINT iID = pCmdUI->m_nID;
 	UINT vTemp = iID - ID_PENSIZE_VERYTHIN + 1;
@@ -359,8 +363,32 @@ void CMFCDay10Doc::OnUpdatePensizeCommand(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(m_nPenSize == vTemp);
 }
 
-unsigned int CMFCDay10Doc::GetPenSize()
+unsigned int CToolbarDoc::GetPenSize()
 {
 	// TODO: Add your implementation code here.
 	return m_nPenSize;
+}
+
+
+void CToolbarDoc::UpdateColorBar(int ix)
+{
+	// TODO: Add your implementation code here.
+	auto pos = GetFirstViewPosition();
+	if(!pos)
+		return;
+	auto pView = GetNextView(pos);
+	if (!pView)
+		return;
+	auto pFrame = (CMainFrame*)pView->GetTopLevelFrame();
+	if (!pFrame)
+		return;
+	pFrame->UpdateWidthCB(ix);
+}
+
+void CToolbarDoc::SetPenSize(int nIndex)
+{
+	if (nIndex == 0)
+		m_nPenSize = 1;
+	else
+		m_nPenSize = 8 * (nIndex+1);
 }

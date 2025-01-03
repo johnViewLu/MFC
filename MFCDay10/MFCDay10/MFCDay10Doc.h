@@ -6,11 +6,11 @@
 #pragma once
 class CLine;
 
-class CMFCDay10Doc : public CDocument
+class CToolbarDoc : public CDocument
 {
 protected: // create from serialization only
-	CMFCDay10Doc() noexcept;
-	DECLARE_DYNCREATE(CMFCDay10Doc)
+	CToolbarDoc() noexcept;
+	DECLARE_DYNCREATE(CToolbarDoc)
 
 // Attributes
 public:
@@ -29,7 +29,7 @@ public:
 
 // Implementation
 public:
-	virtual ~CMFCDay10Doc();
+	virtual ~CToolbarDoc();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
@@ -53,6 +53,7 @@ public:
 	CLine* GetLine(int nIndex);
 	virtual void DeleteContents();
 	static const COLORREF m_crColors[8];
+	void SetPenSize(int nIndex);
 private:
 	unsigned int m_nColor;
 	unsigned int m_nPenSize;
@@ -77,4 +78,5 @@ public:
 	afx_msg void OnPensizeCommand(UINT iID);
 	afx_msg void OnUpdatePensizeCommand(CCmdUI* pCmdUI);
 	unsigned int GetPenSize();
+	void UpdateColorBar(int ix);
 };

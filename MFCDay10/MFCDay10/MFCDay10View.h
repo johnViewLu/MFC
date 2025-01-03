@@ -13,7 +13,7 @@ protected: // create from serialization only
 
 // Attributes
 public:
-	CMFCDay10Doc* GetDocument() const;
+	CToolbarDoc* GetDocument() const;
 
 // Operations
 public:
