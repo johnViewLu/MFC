@@ -116,13 +116,17 @@
 #define ID_BUTTON32804                  32804
 #define ID_BUTTON32805                  32805
 #define ID_BUTTON32806                  32806
+#define ID_BUTTON_SHOW_HIDE             32807
+#define ID_BUTTON_HIDE_SHOW_COLOR       32808
+#define ID_INDICATOR_COLOR              59142
+#define ID_INDICATOR_PENSIZE            59143
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        326
-#define _APS_NEXT_COMMAND_VALUE         32807
+#define _APS_NEXT_COMMAND_VALUE         32810
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           311
 #endif

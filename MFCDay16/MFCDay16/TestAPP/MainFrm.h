@@ -56,17 +56,6 @@ protected:
 
 	BOOL CreateDockingWindows();
 	void SetDockingWindowIcons(BOOL bHiColorIcons);
-	CMFCToolBar m_wndColorBar;
-public:
-	afx_msg void OnUpdateViewColorbar(CCmdUI* pCmdUI);
-	afx_msg void OnViewColorbar();
-protected:
-	CComboBox m_ctrlWidth;
-public:
-	BOOL CreateColorBar();
-	afx_msg void OnSelChangeWidth();
-	void UpdateWidthCB(int idx);
-	afx_msg void OnButtonShowHide();
 };
 
 

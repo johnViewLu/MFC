@@ -42,6 +42,8 @@ BEGIN_MESSAGE_MAP(CToolbarDoc, CDocument)
 	ON_UPDATE_COMMAND_UI(ID_COLOR_YELLOW, &CToolbarDoc::OnUpdateColorYellow)
 	ON_COMMAND_RANGE(ID_PENSIZE_VERYTHIN, ID_PENSIZE_VERYTHICK, &CToolbarDoc::OnPensizeCommand)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_PENSIZE_VERYTHIN, ID_PENSIZE_VERYTHICK, &CToolbarDoc::OnUpdatePensizeCommand)
+	ON_UPDATE_COMMAND_UI(ID_INDICATOR_COLOR, &CToolbarDoc::OnUpdateIndicatorColor)
+	ON_UPDATE_COMMAND_UI(ID_INDICATOR_PENSIZE, &CToolbarDoc::OnUpdateIndicatorPenSize)
 END_MESSAGE_MAP()
 
 const COLORREF CToolbarDoc::m_crColors[8] = {
@@ -344,12 +346,15 @@ void CToolbarDoc::OnUpdateColorYellow(CCmdUI* pCmdUI)
 void CToolbarDoc::OnPensizeCommand(UINT iID)
 {
 	// TODO: Add your command handler code here
-	m_nPenSize = iID - ID_PENSIZE_VERYTHIN + 1;
-
 	UpdateColorBar(iID - ID_PENSIZE_VERYTHIN);
 
+	auto vTemp = iID - ID_PENSIZE_VERYTHIN;
+
 	if(iID!=ID_PENSIZE_VERYTHIN)
-		m_nPenSize *=8;
+		m_nPenSize =8*vTemp;
+	else
+		m_nPenSize = 1;
+		
 }
 
 
@@ -357,10 +362,34 @@ void CToolbarDoc::OnPensizeCommand(UINT iID)
 void CToolbarDoc::OnUpdatePensizeCommand(CCmdUI* pCmdUI)
 {
 	UINT iID = pCmdUI->m_nID;
-	UINT vTemp = iID - ID_PENSIZE_VERYTHIN + 1;
+	UINT vTemp = iID - ID_PENSIZE_VERYTHIN;
 	if (iID != ID_PENSIZE_VERYTHIN)
 		vTemp *= 8;
 	pCmdUI->SetCheck(m_nPenSize == vTemp);
+}
+
+void CToolbarDoc::OnUpdateIndicatorColor(CCmdUI* pCmdUI)
+{
+	static CString sColors[] = { L"BlackX", L"Blue",  L"Green",  L"Cyan", L"Red", L"Magenta", L"Yellow" , L"White"};
+	pCmdUI->Enable(TRUE);
+	pCmdUI->SetText(sColors[m_nColor]);
+
+}
+
+
+void CToolbarDoc::OnUpdateIndicatorPenSize(CCmdUI* pCmdUI)
+{
+	static CString sSize[] = { L"Very Thin", L"Thin",  L"Medium",  L"Thick", L"Very Thick"};
+	pCmdUI->Enable(TRUE);
+	auto vIndex = m_nPenSize;
+	L_(linfo) << __FUNCTION__;
+	L_(linfo) << "m_nPenSize=" << m_nPenSize;
+	if (vIndex != 1)
+		vIndex /= 8;
+	else
+		vIndex = 0;
+	pCmdUI->SetText(sSize[vIndex]);
+
 }
 
 unsigned int CToolbarDoc::GetPenSize()
@@ -390,5 +419,5 @@ void CToolbarDoc::SetPenSize(int nIndex)
 	if (nIndex == 0)
 		m_nPenSize = 1;
 	else
-		m_nPenSize = 8 * (nIndex+1);
+		m_nPenSize = 8 * (nIndex);
 }

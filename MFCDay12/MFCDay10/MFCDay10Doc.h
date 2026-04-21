@@ -77,6 +77,8 @@ public:
 	afx_msg void OnUpdateColorYellow(CCmdUI* pCmdUI);
 	afx_msg void OnPensizeCommand(UINT iID);
 	afx_msg void OnUpdatePensizeCommand(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateIndicatorColor(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateIndicatorPenSize(CCmdUI* pCmdUI);
 	unsigned int GetPenSize();
 	void UpdateColorBar(int ix);
 };

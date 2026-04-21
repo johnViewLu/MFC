@@ -78,11 +78,13 @@ BOOL CDialogsApp::InitInstance()
 	{
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with OK
+		auto x=0;
 	}
 	else if (nResponse == IDCANCEL)
 	{
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with Cancel
+		auto y = 0;
 	}
 	else if (nResponse == -1)
 	{

@@ -222,6 +222,9 @@ int main()
 {
   memset(test::dp, 0, sizeof(test::dp));
   memset(test::option, 0, sizeof(test::option));
+  std::vector<int> path;
+  std::cout << typeid(path.size()).name() << "\n";
+  return 0;
   //// Given Input
   //int N = 3;
   //a[1].x = 1, a[1].y = 1;
