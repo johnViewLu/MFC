@@ -113,17 +113,17 @@ CTestAPPDoc* CTestAPPView::GetDocument() const // non-debug version is inline
 #endif //_DEBUG
 
 
-//void CTestAPPView::OnDraw(CDC* pDC)
-//{
-//	CTestAPPDoc* pDoc = GetDocument();
-//	ASSERT_VALID(pDoc);
-//
-//	// TODO: add draw code for native data here
-//
-//		 // Get the drawing object
-//	CModArt* m_maDrawing = pDoc->GetDrawing();
-//	// Draw the drawing
-//	m_maDrawing->Draw(pDC);
-//}
+void CTestAPPView::OnDraw(CDC* pDC)
+{
+	CTestAPPDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	// TODO: add draw code for native data here
+
+		 // Get the drawing object
+	CModArt* m_maDrawing = pDoc->GetDrawing();
+	// Draw the drawing
+	m_maDrawing->Draw(pDC);
+}
 
 // CTestAPPView message handlers

@@ -21,18 +21,18 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CModArt.h">
+    <ClInclude Include="CLine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="StaticLib1.cpp">
+    <ClCompile Include="StaticLib2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CModArt.cpp">
+    <ClCompile Include="CLine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

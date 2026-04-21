@@ -1,19 +1,19 @@
 ﻿#include "pch.h"
 #include "CModArt.h"
-#include "CLine.h"
+#include "../StaticLib2/CLine.h"
 
 
 
- const COLORREF CModArt::m_crColors[8] = {
-    RGB(0,   0,   0),    // Black
-	RGB(0,   0, 255),    // Blue
-	RGB(0, 255,   0),    // Green
-	RGB(0, 255, 255),    // Cyan
-	RGB(255,   0,   0),    // Red
-	RGB(255,   0, 255),    // Magenta
-	RGB(255, 255,   0),    // Yellow
-	RGB(255, 255, 255)     // White
- };
+const COLORREF CModArt::m_crColors[8] = {
+   RGB(0,   0,   0),    // Black
+   RGB(0,   0, 255),    // Blue
+   RGB(0, 255,   0),    // Green
+   RGB(0, 255, 255),    // Cyan
+   RGB(255,   0,   0),    // Red
+   RGB(255,   0, 255),    // Magenta
+   RGB(255, 255,   0),    // Yellow
+   RGB(255, 255, 255)     // White
+};
 
 
 
