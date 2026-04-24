@@ -1,0 +1,10 @@
+ 
+  REGULARDll.def : Declares the module parameters for the DLL
+  LIBRARY        "REGULARDll""
+  DESCRIPTION    "REGULARDll Windows Dynamic Link Library"
+    EXPORTS
+        //Explicit exports can go here
+      ModArtNewDrawing
+      ModArtSerialize
+      ModArtDraw
+      ModArtClearDrawing
